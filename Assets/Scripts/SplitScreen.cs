@@ -24,10 +24,12 @@ public class SplitScreen : MonoBehaviour {
 	private GameObject split;
 	private GameObject splitter;
 
+    public Material unlitMaterial;
+
 	void Start () {
 		//Referencing camera1 and initalizing camera2.
-		//camera1 = Camera.main.gameObject;
-		Camera c1 = GetComponent<Camera>();
+		camera1 = Camera.main.gameObject;
+		Camera c1 = camera1.GetComponent<Camera>();
 		camera2 = new GameObject("Camera 2");
 		Camera c2 = camera2.AddComponent<Camera>();
 
@@ -51,14 +53,16 @@ public class SplitScreen : MonoBehaviour {
 		split.transform.localScale = new Vector3 (1, 2/(splitterWidth/10), 1);
 		split.transform.localEulerAngles = Vector3.zero;
 
-		//Creates both temporary materials required to create the splitscreen.
-		Material tempMat = new Material (Shader.Find ("Unlit/Color"));
-		tempMat.color = splitterColor;
+        //Creates both temporary materials required to create the splitscreen.
+        Material tempMat = unlitMaterial; // new Material(shader); // new Material (Shader.Find ("Unlit/Color"));
+        tempMat.color = splitterColor;
 		splitter.GetComponent<Renderer>().material = tempMat;
 		splitter.GetComponent<Renderer> ().sortingOrder = 2;
 		splitter.layer = LayerMask.NameToLayer ("TransparentFX");
-		Material tempMat2 = new Material (Shader.Find ("Mask/SplitScreen"));
-		split.GetComponent<Renderer>().material = tempMat2;
+
+        Material tempMat2 = new Material (Shader.Find ("Mask/SplitScreen"));
+
+        split.GetComponent<Renderer>().material = tempMat2;
 		split.layer = LayerMask.NameToLayer ("TransparentFX");
 	}
 
